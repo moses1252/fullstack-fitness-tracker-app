@@ -1,16 +1,21 @@
 package com.fitnesstracker.dto;
 
-public class AuthResponse {
-    public boolean success;
-    public String message;
-    public Long userId;
+public record AuthResponse(boolean success, String message, Long userId, String token) {}
 
-    public AuthResponse(boolean success, String message, Long userId) {
-        this.success = success;
-        this.message = message;
-        this.userId = userId;
-    }
-}
+
+//package com.fitnesstracker.dto;
+//
+//public class AuthResponse {
+//    public boolean success;
+//    public String message;
+//    public Long userId;
+//
+//    public AuthResponse(boolean success, String message, Long userId) {
+//        this.success = success;
+//        this.message = message;
+//        this.userId = userId;
+//    }
+//}
 
 
 

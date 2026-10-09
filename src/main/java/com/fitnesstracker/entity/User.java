@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class User {
+
+    private static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,12 +77,17 @@ public class User {
     public enum Gender {
         MALE, FEMALE, OTHER
     }
-
-    public static String hashPassword(String password) {
-        return password; // TODO: add proper hashing later
+    public static String hashPassword(String rawPassword) {
+        return ENCODER.encode(rawPassword);
     }
+//    public static String hashPassword(String password) {
+//        return password; // TODO: add proper hashing later
+//    }
 
     public boolean checkPassword(String rawPassword) {
-        return this.password.equals(rawPassword); // TODO: add proper comparison later
+        return ENCODER.matches(rawPassword, this.password);
     }
+//    public boolean checkPassword(String rawPassword) {
+//        return this.password.equals(rawPassword); // TODO: add proper comparison later
+//    }
 }
