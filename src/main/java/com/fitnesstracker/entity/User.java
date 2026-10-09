@@ -74,4 +74,12 @@ public class User {
     public enum Gender {
         MALE, FEMALE, OTHER
     }
+
+    public static String hashPassword(String password) {
+        return password; // TODO: add proper hashing later
+    }
+
+    public boolean checkPassword(String rawPassword) {
+        return this.password.equals(rawPassword); // TODO: add proper comparison later
+    }
 }
