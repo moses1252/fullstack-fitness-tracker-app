@@ -19,6 +19,10 @@ public class AuthService {
     private String inviteCodes;
 
     public AuthResponse register(UserRegisterRequest request) {
+        if (userRepository.existsByUsername(request.username)) {
+            return new AuthResponse(false, "Username already exists", null);
+        }
+
         if (userRepository.existsByEmail(request.email)) {
             return new AuthResponse(false, "Email already exists", null);
         }
@@ -28,6 +32,7 @@ public class AuthService {
         }
 
         User user = User.builder()
+                .username(request.username)
                 .email(request.email)
                 .password(User.hashPassword(request.password))
                 .isActive(true)
