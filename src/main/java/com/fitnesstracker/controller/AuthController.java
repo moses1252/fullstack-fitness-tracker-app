@@ -1,5 +1,5 @@
 package com.fitnesstracker.controller;
-
+// .\mvnw.cmd clean spring-boot:run
 import com.fitnesstracker.dto.UserRegisterRequest;
 import com.fitnesstracker.dto.UserLoginRequest;
 import com.fitnesstracker.dto.AuthResponse;
