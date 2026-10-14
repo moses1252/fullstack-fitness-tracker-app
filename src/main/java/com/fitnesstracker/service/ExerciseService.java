@@ -5,6 +5,7 @@ import com.fitnesstracker.dto.ExerciseResponse;
 import com.fitnesstracker.entity.Exercise;
 import com.fitnesstracker.entity.ExerciseUnit;
 import com.fitnesstracker.repository.ExerciseRepository;
+import com.fitnesstracker.repository.WorkoutEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class ExerciseService {
 
     @Autowired
     private ExerciseRepository exerciseRepository;
+
+    @Autowired
+    private WorkoutEntryRepository workoutEntryRepository;
 
     public ExerciseResponse create(Long userId, ExerciseRequest request) {
         if (exerciseRepository.existsByUserIdAndName(userId, request.name())) {
@@ -44,9 +48,14 @@ public class ExerciseService {
                     if (exerciseRepository.existsByUserIdAndNameAndIdNot(userId, request.name(), id)) {
                         throw new IllegalArgumentException("You already have an exercise with that name");
                     }
+                    // Unit lock: once entries exist, the unit can't change
+                    if (request.unit() != null
+                            && request.unit() != exercise.getUnit()
+                            && workoutEntryRepository.existsByExerciseId(id)) {
+                        throw new IllegalArgumentException("Unit can't change after workout entries exist");
+                    }
                     exercise.setName(request.name());
                     exercise.setDescription(request.description());
-                    // Unit change is blocked once entries exist; the check is added with WorkoutEntryRepository.
                     if (request.unit() != null) {
                         exercise.setUnit(request.unit());
                     }
