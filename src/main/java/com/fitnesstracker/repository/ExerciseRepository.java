@@ -10,4 +10,8 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     List<Exercise> findByUserIdAndArchivedFalse(Long userId);
 
     Optional<Exercise> findByIdAndUserId(Long id, Long userId);
+
+    boolean existsByUserIdAndName(Long userId, String name);
+
+    boolean existsByUserIdAndNameAndIdNot(Long userId, String name, Long id);
 }

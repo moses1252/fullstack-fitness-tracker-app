@@ -1,5 +1,6 @@
 package com.fitnesstracker.dto;
 
+import com.fitnesstracker.entity.ExerciseUnit;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -9,5 +10,7 @@ public record ExerciseRequest(
         String name,
 
         @Size(max = 500, message = "Description must be 500 characters or less")
-        String description
+        String description,
+
+        ExerciseUnit unit
 ) {}

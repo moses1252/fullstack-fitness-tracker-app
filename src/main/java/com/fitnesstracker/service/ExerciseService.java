@@ -3,6 +3,7 @@ package com.fitnesstracker.service;
 import com.fitnesstracker.dto.ExerciseRequest;
 import com.fitnesstracker.dto.ExerciseResponse;
 import com.fitnesstracker.entity.Exercise;
+import com.fitnesstracker.entity.ExerciseUnit;
 import com.fitnesstracker.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,15 @@ public class ExerciseService {
     private ExerciseRepository exerciseRepository;
 
     public ExerciseResponse create(Long userId, ExerciseRequest request) {
+        if (exerciseRepository.existsByUserIdAndName(userId, request.name())) {
+            throw new IllegalArgumentException("You already have an exercise with that name");
+        }
+
         Exercise exercise = Exercise.builder()
                 .userId(userId)
                 .name(request.name())
                 .description(request.description())
+                .unit(request.unit() != null ? request.unit() : ExerciseUnit.REPS)
                 .build();
         return ExerciseResponse.from(exerciseRepository.save(exercise));
     }
@@ -35,8 +41,15 @@ public class ExerciseService {
     public Optional<ExerciseResponse> update(Long userId, Long id, ExerciseRequest request) {
         return exerciseRepository.findByIdAndUserId(id, userId)
                 .map(exercise -> {
+                    if (exerciseRepository.existsByUserIdAndNameAndIdNot(userId, request.name(), id)) {
+                        throw new IllegalArgumentException("You already have an exercise with that name");
+                    }
                     exercise.setName(request.name());
                     exercise.setDescription(request.description());
+                    // Unit change is blocked once entries exist; the check is added with WorkoutEntryRepository.
+                    if (request.unit() != null) {
+                        exercise.setUnit(request.unit());
+                    }
                     return ExerciseResponse.from(exerciseRepository.save(exercise));
                 });
     }
