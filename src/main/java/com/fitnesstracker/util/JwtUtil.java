@@ -1,5 +1,7 @@
 package com.fitnesstracker.util;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,5 +37,20 @@ public class JwtUtil {
                 .expiration(new Date(now.getTime() + expirationMs))
                 .signWith(key)
                 .compact();
+    }
+
+    // Returns the user ID if the token is valid and unexpired, otherwise null
+    public Long parseUserId(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            Object id = claims.get("userId");
+            return id instanceof Number n ? n.longValue() : null;
+        } catch (JwtException | IllegalArgumentException e) {
+            return null;
+        }
     }
 }

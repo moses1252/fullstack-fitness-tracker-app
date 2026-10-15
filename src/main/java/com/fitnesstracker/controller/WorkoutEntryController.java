@@ -20,11 +20,9 @@ public class WorkoutEntryController {
     @Autowired
     private WorkoutEntryService workoutEntryService;
 
-    // TODO: replace X-User-Id header with the user ID from the JWT filter before deployment
-
     @PostMapping
     public ResponseEntity<WorkoutEntryResponse> create(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestAttribute("userId") Long userId,
             @Valid @RequestBody WorkoutEntryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(workoutEntryService.create(userId, request));
@@ -32,14 +30,14 @@ public class WorkoutEntryController {
 
     @GetMapping
     public List<WorkoutEntryResponse> listByDate(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestAttribute("userId") Long userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return workoutEntryService.listByDate(userId, date);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestAttribute("userId") Long userId,
             @PathVariable("id") Long id) {
         return workoutEntryService.delete(userId, id)
                 ? ResponseEntity.noContent().build()
