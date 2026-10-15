@@ -11,6 +11,8 @@ public interface WorkoutEntryRepository extends JpaRepository<WorkoutEntry, Long
 
     List<WorkoutEntry> findByUserIdAndPerformedOnOrderByIdAsc(Long userId, LocalDate performedOn);
 
+    List<WorkoutEntry> findByUserIdAndPerformedOnBetween(Long userId, LocalDate start, LocalDate end);
+
     Optional<WorkoutEntry> findByIdAndUserId(Long id, Long userId);
 
     boolean existsByExerciseId(Long exerciseId);
