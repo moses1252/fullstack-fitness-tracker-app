@@ -39,3 +39,6 @@ build/
 
 # workout data
 data/
+
+# one-time PDF import migration (personal workout data, keep local)
+src/main/resources/db/migration/V6__seed_pdf_history.sql
