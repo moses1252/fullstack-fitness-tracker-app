@@ -39,3 +39,6 @@ build/
 
 # workout data
 data/
+
+# work out history
+src/main/resources/db/migration/V6__seed_pdf_history.sql
