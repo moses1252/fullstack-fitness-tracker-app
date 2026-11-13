@@ -1,0 +1,18 @@
+/* Layout for the app's main content area. */
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 18px 128px; /* bottom space keeps content clear of the nav */
+}
+
+.placeholder {
+  color: var(--muted);
+}
+
+/* Wide screens: content moves right to make room for the left rail */
+@media (min-width: 900px) {
+  .main {
+    padding: 36px 36px 56px 140px;
+  }
+}

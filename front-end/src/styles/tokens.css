@@ -1,0 +1,49 @@
+/*
+  Design tokens from Design #2. Colors live here once.
+  Components only use var(--name), never raw hex.
+  Dark mode follows the system setting automatically.
+*/
+
+:root {
+  --bg: #e7ebe4;
+  --surface: #f7f8f4;
+  --raised: #ffffff;
+  --ink: #152033;
+  --muted: #5b6576;
+  --line: #d2d8ce;
+  --accent: #2747f5;
+  --accent-ink: #ffffff;
+
+  /* Series colors, used in charts and chips in this order */
+  --c1: #2747f5;
+  --c2: #f2602f;
+  --c3: #0e9e8c;
+  --c4: #8e55f2;
+  --c5: #d99a0b;
+  --c6: #de3f74;
+
+  --font-body: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #10161f;
+    --surface: #18202d;
+    --raised: #1f2938;
+    --ink: #edf1f7;
+    --muted: #97a2b5;
+    --line: #2a3446;
+    --accent: #7088ff;
+    --accent-ink: #0c1220;
+    --c1: #7088ff;
+    --c2: #ff8a5e;
+    --c3: #2bc6b1;
+    --c4: #b28dff;
+    --c5: #f4be42;
+    --c6: #f36d98;
+    color-scheme: dark;
+  }
+}
